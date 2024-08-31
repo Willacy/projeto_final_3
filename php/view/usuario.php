@@ -31,8 +31,9 @@ class Usuario extends Home
         <?php
 
     }
-    public function logout()
+    public function logout($conn)
     {
+        $this->$conn = null;
     }
     public function postLogin()
     {
