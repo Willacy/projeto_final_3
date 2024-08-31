@@ -10,8 +10,8 @@
 
 <body>
     <?php
-    require_once __DIR__.'/../../src/nav_bar.php';
-    require_once __DIR__.'/../controller/controller.php';
+    require_once __DIR__ . '/../../src/nav_bar.php';
+    require_once __DIR__ . '/../controller/controller.php';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $login = $_POST['login'];
@@ -19,10 +19,10 @@
 
         // Iniciar conexão e controlador
         $conexao = new Conexao();
-        $controller = new ControllerUser($conexao);
+        $controller = new ControllerUser();
 
         // Validar login
-        $usuario = $controller->validarLogin($login, $senha);
+        $usuario = $controller->validarLogin();
 
         if ($usuario) {
             echo '<div class="alert alert-success" role="alert">Login bem-sucedido!</div>';
