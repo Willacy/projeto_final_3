@@ -2,6 +2,7 @@
 require_once "./php/view/tela_home.php";
 class Usuario extends Home
 {
+    // tela de login
     public function getLogin()
     {
         $this->cabecalho();
@@ -29,7 +30,6 @@ class Usuario extends Home
             </div>
         </div>
         <?php
-
     }
     public function logout($conn)
     {
@@ -88,6 +88,7 @@ class Usuario extends Home
 
     public function put()
     {
+
     }
     public function delete()
     {
