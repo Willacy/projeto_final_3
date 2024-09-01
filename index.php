@@ -5,7 +5,6 @@ require_once "./php/view/usuario.php";
 require_once "./php/view/tela_home.php";
 require_once "./php/controller/controller.php";
 
-
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = explode("?", $uri)[0];
@@ -34,26 +33,29 @@ if (isset($_SESSION['mensagem'])) {
 
 unset($_SESSION['mensagem']);
 
-if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1)
-    //Exibe formulario de Login
+if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
+    // Exibe formulário de Login
     $usuario->getLogin();
-else if ($method == "POST" and $uri[$inicio] == "login" and count($uri) == 1) {
-    //Valida o login
+} else if ($method == "POST" and $uri[$inicio] == "login" and count($uri) == 1) {
+    // Valida o login
     $usuario->postLogin();
 } else if ($method == "GET" and $uri[$inicio] == "home" and count($uri) == 1 and $_SESSION["validar"] == true) {
-    //Se Login ok, vai para Home
+    // Se Login ok, vai para Home
     $home->home();
 } else if ($method == "POST" and $uri[$inicio] == "usuario" and count($uri) == 1 and $_SESSION["validar"] == true) {
-    //
+    // Realiza ação específica para POST na rota /usuario
     $usuario->post();
 } else if ($method == "GET" and $uri[$inicio] == "usuario" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Exibe formulário de cadastro de usuário
     $usuario->getCadastro();
+} else if ($method == "GET" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Exibe a tela de pesquisa de usuário
+    $usuario->getPesquisaUsuario('willian');
+} else if ($method == "POST" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Realiza a pesquisa de usuário
+    $usuario->postPesquisaUsuario();
 } else {
-    // $usuario->getLogin();
+    // Redireciona para a tela de login
     header('Location: /projeto_final_3/login');
-    // echo "<h1>Página não encontrada</h1>";
-    // $resposta = ['uri' => $uri, 'method' => $method];
-    // echo json_encode($resposta);
 }
-
 ?>

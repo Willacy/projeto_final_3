@@ -49,6 +49,18 @@ class Home
                             </ul>
                         </li>
 
+                         <!-- MENU PESQUISA -->
+                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Pesquisa
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/projeto_final_3/pesquisa">Usuário</a></li>
+                                <li><a class="dropdown-item" href="#">Livro</a></li>
+                            </ul>
+                        </li>
+
                         <!-- MENU MOVIMENTO -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

@@ -7,7 +7,7 @@ class Conexao
     public function __construct()
     {
         try {
-            $this->conexao = new PDO('mysql:host=localhost;dbname=bd_biblioteca;port=3306', 'willacy', 'Hellena15@');
+            $this->conexao = new PDO('mysql:host=localhost;dbname=bd_biblioteca;port=3306', 'root', '');
             $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         } catch (PDOException $e) {
@@ -69,5 +69,24 @@ class ControllerUser extends Conexao
             return false;
         }
     }
+
+     // Função para pesquisar um usuário
+     public function pesquisarUsuario($criterio)
+     {
+         try {
+             $query = "SELECT * FROM usuarios WHERE nome_usuario LIKE :criterio OR login_usuario LIKE :criterio";
+             $stmt = $this->conexao->prepare($query);
+             $criterio = '%' . $criterio . '%';
+             $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
+             $stmt->execute();
+ 
+             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+             return $resultados;
+ 
+         } catch (PDOException $e) {
+             echo "Erro ao pesquisar usuário: " . $e->getMessage();
+             return false;
+         }
+     }
 
 }

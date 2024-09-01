@@ -1,1 +1,1 @@
-insert into usuarios values (null, 'Willacy Santana', 'LBSoul', '9dc12dd4719748642edc8e9382b3043b6715e815');
+insert into usuarios values (null, 'Willian Queiroz Silva', 'willian', '40bd001563085fc35165329ea1ff5c5ecbdbbeef');
