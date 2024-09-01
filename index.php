@@ -54,7 +54,13 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
 } else if ($method == "POST" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Realiza a pesquisa de usuário
     $usuario->postPesquisaUsuario();
-} else {
+} else if ($method == "GET" && $uri[$inicio] == "editar_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+    // Exibe o formulário de edição de usuário
+    $usuario->put();
+} else if ($method == "POST" && $uri[$inicio] == "editar_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+    // Processa a edição do usuário
+    $usuario->postEditarUsuario();
+}else {
     // Redireciona para a tela de login
     header('Location: /projeto_final_3/login');
 }
