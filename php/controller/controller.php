@@ -70,23 +70,64 @@ class ControllerUser extends Conexao
         }
     }
 
-     // Função para pesquisar um usuário
-     public function pesquisarUsuario($criterio)
-     {
-         try {
-             $query = "SELECT * FROM usuarios WHERE nome_usuario LIKE :criterio OR login_usuario LIKE :criterio";
-             $stmt = $this->conexao->prepare($query);
-             $criterio = '%' . $criterio . '%';
-             $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
-             $stmt->execute();
- 
-             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-             return $resultados;
- 
-         } catch (PDOException $e) {
-             echo "Erro ao pesquisar usuário: " . $e->getMessage();
-             return false;
-         }
-     }
+    // Função para pesquisar um usuário
+    public function pesquisarUsuario($criterio)
+    {
+        try {
+            $query = "SELECT * FROM usuarios WHERE nome_usuario LIKE :criterio OR login_usuario LIKE :criterio";
+            $stmt = $this->conexao->prepare($query);
+            $criterio = '%' . $criterio . '%';
+            $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultados;
+
+        } catch (PDOException $e) {
+            echo "Erro ao pesquisar usuário: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function buscarUsuarioPorId($id_usuario)
+    {
+        try {
+            $query = "SELECT * FROM usuarios WHERE id_usuario = :id_usuario";
+            $stmt = $this->conexao->prepare($query);
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $resultado;
+        } catch (PDOException $e) {
+            echo "Erro ao pesquisar usuário: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function atualizarUsuario($id_usuario, $nome_usuario, $login_usuario, $senha_usuario)
+    {
+        try {
+            $query = "UPDATE usuarios SET nome_usuario = :nome_usuario, login_usuario = :login_usuario, senha_usuario = :senha_usuario WHERE id_usuario = :id_usuario";
+            $stmt = $this->conexao->prepare($query);
+
+            // Bind dos parâmetros individualmente
+            $stmt->bindParam(':nome_usuario', $nome_usuario, PDO::PARAM_STR);
+            $stmt->bindParam(':login_usuario', $login_usuario, PDO::PARAM_STR);
+            $stmt->bindParam(':senha_usuario', $senha_usuario, PDO::PARAM_STR);
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+
+            // Executa a query
+            $stmt->execute();
+
+            // Verifica se alguma linha foi afetada
+            $resultado = $stmt->rowCount() > 0;
+            return $resultado;
+
+        } catch (PDOException $e) {
+            echo "Erro ao atualizar usuário: " . $e->getMessage();
+            return false;
+        }
+    }
 
 }

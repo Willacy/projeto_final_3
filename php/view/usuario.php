@@ -8,7 +8,7 @@ class Usuario extends Home
         $this->cabecalho();
         $this->navbar();
 
-?>
+        ?>
         <div class="container">
             <div class="tudo">
                 <div class="tela_login mx-auto bg-secondary-subtle p-3" style="width: 400px">
@@ -29,7 +29,7 @@ class Usuario extends Home
                 </div>
             </div>
         </div>
-    <?php
+        <?php
     }
     public function logout($conn)
     {
@@ -49,7 +49,7 @@ class Usuario extends Home
     {
         $this->cabecalho();
         $this->navbar();
-    ?>
+        ?>
         <div class="container">
             <div class="tudo">
                 <div class="tela_cadastro mx-auto bg-secondary-subtle p-3" style="width: 600px">
@@ -71,7 +71,7 @@ class Usuario extends Home
                 </div>
             </div>
         </div>
-    <?php
+        <?php
 
     }
     public function post()
@@ -97,7 +97,7 @@ class Usuario extends Home
             $resultados = $controllerUser->pesquisarUsuario(' ');
         }
 
-    ?>
+        ?>
 
         <h1>Pesquisa de Usuário</h1>
 
@@ -132,7 +132,8 @@ class Usuario extends Home
                                     <!-- Botão de Excluir -->
                                     <form action="/projeto_final_3/excluir_usuario" method="post" style="display:inline;">
                                         <input type="hidden" name="id" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
-                                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</button>
+                                        <button type="submit"
+                                            onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</button>
                                     </form>
                                 </td>
                             </tr>
@@ -148,7 +149,7 @@ class Usuario extends Home
         </html>
 
 
-    <?php
+        <?php
 
     }
     public function getPesquisaUsuario()
@@ -158,32 +159,75 @@ class Usuario extends Home
 
     public function put()
     {
-    ?>
-        <!-- editar_usuario.php -->
-        <?php if (isset($usuario)): ?>
-            <h2>Editar Usuário</h2>
-            <form action="/projeto_final_3/editar_usuario" method="post">
-                <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
-
-                <div>
-                    <label for="nome_usuario">Nome:</label>
-                    <input type="text" id="nome_usuario" name="nome_usuario" value="<?= htmlspecialchars($usuario['nome_usuario']); ?>" required>
-                </div>
-
-                <div>
-                    <label for="login_usuario">Login:</label>
-                    <input type="text" id="login_usuario" name="login_usuario" value="<?= htmlspecialchars($usuario['login_usuario']); ?>" required>
-                </div>
-
-                <button type="submit">Salvar Alterações</button>
-            </form>
-        <?php else: ?>
-            <p>Usuário não encontrado.</p>
-        <?php endif; ?>
-
-<?php
-
+        $this->postEditarUsuario();
     }
-    public function delete() {}
+
+    public function postEditarUsuario()
+    {
+        $this->cabecalho();
+        $this->navbar();
+        // Verifica se o ID do usuário foi passado pela URL.
+        if (isset($_GET['id'])) {
+            $id_usuario = htmlspecialchars($_GET['id']);
+
+            // Instancia o controlador do usuário.
+            $controllerUser = new ControllerUser();
+
+            // Recupera os dados do usuário usando o ID.
+            $usuario = $controllerUser->buscarUsuarioPorId($id_usuario);
+
+            if ($usuario) {
+                // Exibe o formulário de edição com os dados do usuário.
+                ?>
+                <h2>Editar Usuário</h2>
+                <form action="" method="post">
+                    <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
+
+                    <div>
+                        <label for="nome_usuario">Nome:</label>
+                        <input type="text" id="nome_usuario" name="nome_usuario"
+                            value="<?= htmlspecialchars($usuario['nome_usuario']); ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="login_usuario">Login:</label>
+                        <input type="text" id="login_usuario" name="login_usuario"
+                            value="<?= htmlspecialchars($usuario['login_usuario']); ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="senha_usuario">Senha:</label>
+                        <input type="password" id="senha_usuario" name="senha_usuario"
+                            value="<?= htmlspecialchars($usuario['senha_usuario']); ?>" required>
+                    </div>
+
+                    <button type="submit">Salvar Alterações</button>
+                </form>
+                <?php
+                // Atualiza os dados do usuário no banco de dados.
+                if (isset($_POST['id_usuario'])) {
+                    $resultado = $controllerUser->atualizarUsuario($_POST['id_usuario'], $_POST['nome_usuario'], $_POST['login_usuario'], sha1($_POST['senha_usuario']));
+                    if ($resultado) {
+                        // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
+                        $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
+                        //header('Location: /projeto_final_3/pesquisa'); // Redireciona para a página de pesquisa de usuários.
+                        exit();
+                        
+                    } else {
+                        // Exibe mensagem de erro se a atualização falhar.
+                        echo "<p>Erro ao atualizar o usuário. Tente novamente.</p>";
+                    }
+                }
+            } else {
+                echo "<p>Usuário não encontrado.</p>";
+            }
+        } else {
+            echo "<p>ID do usuário não fornecido.</p>";
+        }
+    }
+
+    public function delete()
+    {
+    }
 }
 ?>
