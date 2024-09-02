@@ -210,9 +210,11 @@ class Usuario extends Home
                     if ($resultado) {
                         // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
                         $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
-                        //header('Location: /projeto_final_3/pesquisa'); // Redireciona para a página de pesquisa de usuários.
+                        echo '<script type="text/javascript">
+                         window.location.href = "/projeto_final_3/pesquisa";
+                         </script>';
+
                         exit();
-                        
                     } else {
                         // Exibe mensagem de erro se a atualização falhar.
                         echo "<p>Erro ao atualizar o usuário. Tente novamente.</p>";
