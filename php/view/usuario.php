@@ -130,11 +130,7 @@ class Usuario extends Home
                                     <a href="/projeto_final_3/editar_usuario?id=<?= urlencode($usuario['id_usuario']); ?>">Editar</a>
 
                                     <!-- Botão de Excluir -->
-                                    <form action="/projeto_final_3/excluir_usuario" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
-                                        <button type="submit"
-                                            onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</button>
-                                    </form>
+                                    <a href="/projeto_final_3/excluir_usuario?id=<?= urlencode($usuario['id_usuario']); ?>">Excluir</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -230,6 +226,64 @@ class Usuario extends Home
 
     public function delete()
     {
+        $this->cabecalho();
+        $this->navbar();
+        // Verifica se o ID do usuário foi passado pela URL.
+        if (isset($_GET['id'])) {
+            $id_usuario = htmlspecialchars($_GET['id']);
+
+            // Instancia o controlador do usuário.
+            $controllerUser = new ControllerUser();
+
+            // Recupera os dados do usuário usando o ID.
+            $usuario = $controllerUser->buscarUsuarioPorId($id_usuario);
+
+            if ($usuario) {
+                // Exibe o formulário de edição com os dados do usuário.
+                ?>
+                <h2>REMOVER O USUÁRIO</h2>
+
+                <form action="" method="post">
+                    <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
+
+                    <div>
+                        <label for="nome_usuario">Nome:</label>
+                        <input type="text" id="nome_usuario" name="nome_usuario"
+                            value="<?= htmlspecialchars($usuario['nome_usuario']); ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="login_usuario">Login:</label>
+                        <input type="text" id="login_usuario" name="login_usuario"
+                            value="<?= htmlspecialchars($usuario['login_usuario']); ?>" required>
+                    </div>
+
+                    <button type="submit">Excluir</button>
+                </form>
+                <?php
+                // Atualiza os dados do usuário no banco de dados.
+                if (isset($_POST['id_usuario'])) {
+                    $resultado = $controllerUser->excluirUsuario($_POST['id_usuario']);
+                    if ($resultado) {
+                        // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
+                        $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
+                        echo '<script type="text/javascript">
+                         window.location.href = "/projeto_final_3/pesquisa";
+                         </script>';
+
+                        exit();
+                    } else {
+                        // Exibe mensagem de erro se a atualização falhar.
+                        echo "<p>Erro ao excluir o usuário. Tente novamente.</p>";
+
+                    }
+                }
+            } else {
+                echo "<p>Usuário não encontrado.</p>";
+            }
+        } else {
+            echo "<p>ID do usuário não fornecido.</p>";
+        }
     }
 }
 ?>

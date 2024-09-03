@@ -110,6 +110,7 @@ class ControllerUser extends Conexao
         try {
             $query = "UPDATE usuarios SET nome_usuario = :nome_usuario, login_usuario = :login_usuario, senha_usuario = :senha_usuario WHERE id_usuario = :id_usuario";
             $stmt = $this->conexao->prepare($query);
+            
 
             // Bind dos parâmetros individualmente
             $stmt->bindParam(':nome_usuario', $nome_usuario, PDO::PARAM_STR);
@@ -130,4 +131,24 @@ class ControllerUser extends Conexao
         }
     }
 
+     // Função para excluir um usuário
+    public function excluirUsuario($id_usuario)
+    {
+        try {
+            $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
+            $stmt = $this->conexao->prepare($query);
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+
+            // Executa a query
+            $stmt->execute();
+
+            // Verifica se alguma linha foi afetada
+            $resultado = $stmt->rowCount() > 0;
+            return $resultado;
+
+        } catch (PDOException $e) {
+            echo "Erro ao excluir usuário: " . $e->getMessage();
+            return false;
+        }
+    }
 }

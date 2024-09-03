@@ -60,7 +60,10 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
 } else if ($method == "POST" && $uri[$inicio] == "editar_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
     $usuario->postEditarUsuario();
-}else {
+} else if ($method == "GET" && $uri[$inicio] == "excluir_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+    // Processa a exclusão do usuário
+    $usuario->delete();
+} else {
     // Redireciona para a tela de login
     header('Location: /projeto_final_3/login');
 }
