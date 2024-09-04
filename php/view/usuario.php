@@ -94,7 +94,7 @@ class Usuario extends Home
         if (isset($_POST['criterio'])) {
             $resultados = $controllerUser->pesquisarUsuario($_POST['criterio']);
         } else {
-            $resultados = $controllerUser->pesquisarUsuario(' ');
+            $resultados = $controllerUser->pesquisarUsuario('%');
         }
 
         ?>
