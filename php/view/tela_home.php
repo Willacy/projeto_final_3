@@ -49,8 +49,8 @@ class Home
                             </ul>
                         </li>
 
-                         <!-- MENU PESQUISA -->
-                         <li class="nav-item dropdown">
+                        <!-- MENU PESQUISA -->
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Pesquisa
@@ -75,7 +75,7 @@ class Home
                         </li>
 
                         <form class="d-flex ms-auto" role="search">
-                            <a type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logout">Sair</a>
+                            <a type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="$_SESSION.">Sair</a>
                         </form>
 
                     </ul>

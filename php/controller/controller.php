@@ -110,7 +110,7 @@ class ControllerUser extends Conexao
         try {
             $query = "UPDATE usuarios SET nome_usuario = :nome_usuario, login_usuario = :login_usuario, senha_usuario = :senha_usuario WHERE id_usuario = :id_usuario";
             $stmt = $this->conexao->prepare($query);
-            
+
 
             // Bind dos parâmetros individualmente
             $stmt->bindParam(':nome_usuario', $nome_usuario, PDO::PARAM_STR);
@@ -131,7 +131,7 @@ class ControllerUser extends Conexao
         }
     }
 
-     // Função para excluir um usuário
+    // Função para excluir um usuário
     public function excluirUsuario($id_usuario)
     {
         try {

@@ -226,6 +226,11 @@ class Usuario extends Home
 
     public function delete()
     {
+        $this->postExcluirUsuario();
+    }
+
+    public function postExcluirUsuario()
+    {
         $this->cabecalho();
         $this->navbar();
         // Verifica se o ID do usuário foi passado pela URL.
@@ -264,6 +269,7 @@ class Usuario extends Home
                 // Atualiza os dados do usuário no banco de dados.
                 if (isset($_POST['id_usuario'])) {
                     $resultado = $controllerUser->excluirUsuario($_POST['id_usuario']);
+                    echo $resultado;
                     if ($resultado) {
                         // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
                         $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
