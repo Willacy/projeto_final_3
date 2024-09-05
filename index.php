@@ -16,8 +16,13 @@ if ($uri[$tamanho - 1] == "")
     array_pop($uri);
 $inicio = 0;
 
+
 $usuario = new Usuario();
 $home = new Home();
+
+if ($method=="PUT"){
+    parse_str(file_get_contents('php://input'), $_PUT);
+}
 
 if (isset($_SESSION['mensagem'])) {
     echo "
@@ -50,24 +55,49 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
     $usuario->getCadastro();
 } else if ($method == "GET" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Exibe a tela de pesquisa de usuário
-    $usuario->getPesquisaUsuario('willian');
+    $usuario->getPesquisaUsuario();
 } else if ($method == "POST" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Realiza a pesquisa de usuário
     $usuario->postPesquisaUsuario();
-} else if ($method == "GET" && $uri[$inicio] == "editar_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
-    // Exibe o formulário de edição de usuário
+
+} else if ($method == "PUT" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     $usuario->put();
-} else if ($method == "POST" && $uri[$inicio] == "editar_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+} else if ($method == "GET" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
+    $usuario->getUsuarioId($uri[1]);
+} else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
     $usuario->postEditarUsuario();
-} else if ($method == "GET" && $uri[$inicio] == "excluir_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+} else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a exclusão do usuário
     $usuario->delete();
-} else if ($method == "POST" && $uri[$inicio] == "excluir_usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+} else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
     $usuario->postExcluirUsuario();
-} else {
+} else if ($method == "GET" and $uri[$inicio] == "logout" and count($uri) == 1) {
+    // Logout
+    $usuario->logout();
+}
+    else {
     // Redireciona para a tela de login
     header('Location: /projeto_final_3/login');
 }
 ?>
+    <script>
+        $('form[method=put]').on('submit',(e)=>{
+            e.preventDefault();
+            let action = $(e.target).attr('action');
+            let metodo = $(e.target).attr('method');
+            let data = $(e.target).serialize();
+            $.ajax({
+                url: action,
+                method: metodo,
+                data: data,
+                context: document.body
+            }).done((data)=>{
+                //location.reload();
+                alert("123");
+            });
+        })
+    </script>
+    </body>
+</html>

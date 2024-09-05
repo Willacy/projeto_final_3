@@ -33,7 +33,10 @@ class Usuario extends Home
     }
     public function logout($conn)
     {
-        $this->$conn = null;
+        //$this->$conn = null;
+        $controller = new ControllerUser();
+        $resultado = $controller->logout();
+        echo '<div class="alert alert-success" role="alert">Logout Efetuado!</div>';
     }
     public function postLogin()
     {
@@ -45,6 +48,7 @@ class Usuario extends Home
             echo '<div class="alert alert-danger" role="alert">Login ou senha inválidos.</div>';
         }
     }
+
     public function getCadastro()
     {
         $this->cabecalho();
@@ -127,10 +131,15 @@ class Usuario extends Home
                                 <td><?= htmlspecialchars($usuario['login_usuario']); ?></td>
                                 <td>
                                     <!-- Botão de Editar -->
-                                    <a href="/projeto_final_3/editar_usuario?id=<?= urlencode($usuario['id_usuario']); ?>">Editar</a>
+                                    <form method="get" action="/projeto_final_3/usuario/<?= urlencode($usuario['id_usuario']); ?>">
+                                        <input type="submit" value="Editar">
+                                    </form>
+                                    
 
                                     <!-- Botão de Excluir -->
-                                    <a href="/projeto_final_3/excluir_usuario?id=<?= urlencode($usuario['id_usuario']); ?>">Excluir</a>
+                                    <form method="delete" action="/projeto_final_3/usuario/<?= urlencode($usuario['id_usuario']); ?>">
+                                        <input type="submit" value="Excluir">
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -153,18 +162,13 @@ class Usuario extends Home
         $this->postPesquisaUsuario();
     }
 
-    public function put()
-    {
-        $this->postEditarUsuario();
-    }
-
-    public function postEditarUsuario()
+    public function getUsuarioId($id)
     {
         $this->cabecalho();
         $this->navbar();
         // Verifica se o ID do usuário foi passado pela URL.
-        if (isset($_GET['id'])) {
-            $id_usuario = htmlspecialchars($_GET['id']);
+        if (isset($id)) {
+            $id_usuario = htmlspecialchars($id);
 
             // Instancia o controlador do usuário.
             $controllerUser = new ControllerUser();
@@ -176,7 +180,7 @@ class Usuario extends Home
                 // Exibe o formulário de edição com os dados do usuário.
                 ?>
                 <h2>Editar Usuário</h2>
-                <form action="" method="post">
+                <form action="usuario/<?=$id?>" method="put">
                     <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
 
                     <div>
@@ -201,21 +205,7 @@ class Usuario extends Home
                 </form>
                 <?php
                 // Atualiza os dados do usuário no banco de dados.
-                if (isset($_POST['id_usuario'])) {
-                    $resultado = $controllerUser->atualizarUsuario($_POST['id_usuario'], $_POST['nome_usuario'], $_POST['login_usuario'], sha1($_POST['senha_usuario']));
-                    if ($resultado) {
-                        // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
-                        $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
-                        echo '<script type="text/javascript">
-                         window.location.href = "/projeto_final_3/pesquisa";
-                         </script>';
-
-                        exit();
-                    } else {
-                        // Exibe mensagem de erro se a atualização falhar.
-                        echo "<p>Erro ao atualizar o usuário. Tente novamente.</p>";
-                    }
-                }
+              
             } else {
                 echo "<p>Usuário não encontrado.</p>";
             }
@@ -291,5 +281,18 @@ class Usuario extends Home
             echo "<p>ID do usuário não fornecido.</p>";
         }
     }
+
+    public function put($id)
+    {
+        if (isset($_POST['id_usuario'])) {
+            $resultado = $controllerUser->atualizarUsuario($id, $_PUT['nome_usuario'], $_PUT['login_usuario'], sha1($_PUT['senha_usuario']));
+            if ($resultado) {
+                // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
+                $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
+                /*echo '<script type="text/javascript">
+                 window.location.href = "/projeto_final_3/pesquisa";
+                 </script>';*/
+        exit();
+    }}
 }
 ?>

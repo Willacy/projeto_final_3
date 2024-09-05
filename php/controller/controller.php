@@ -48,6 +48,14 @@ class ControllerUser extends Conexao
         }
     }
 
+    // Função para Logout
+    public function logout(){
+        $_SESSION["validar"] = false;
+            $_SESSION["mensagem"] = "Logout Efetuado!";
+            header('Location: /projeto_final_3/login');
+    }
+
+
     // Função para registrar um novo usuário
     public function registrarUsusario()
     {
