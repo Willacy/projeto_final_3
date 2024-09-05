@@ -180,7 +180,7 @@ class Usuario extends Home
                 // Exibe o formulário de edição com os dados do usuário.
                 ?>
                 <h2>Editar Usuário</h2>
-                <form action="usuario/<?=$id?>" method="put">
+                <form action="/projeto_final_3/usuario/<?=$id?>" method="put">
                     <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
 
                     <div>
@@ -214,18 +214,15 @@ class Usuario extends Home
         }
     }
 
-    public function delete()
-    {
-        $this->postExcluirUsuario();
-    }
+    
 
-    public function postExcluirUsuario()
+    public function delete($id)
     {
         $this->cabecalho();
         $this->navbar();
         // Verifica se o ID do usuário foi passado pela URL.
-        if (isset($_GET['id'])) {
-            $id_usuario = htmlspecialchars($_GET['id']);
+        if (isset($id)) {
+            $id_usuario = htmlspecialchars($id);
 
             // Instancia o controlador do usuário.
             $controllerUser = new ControllerUser();
@@ -236,37 +233,16 @@ class Usuario extends Home
             if ($usuario) {
                 // Exibe o formulário de edição com os dados do usuário.
                 ?>
-                <h2>REMOVER O USUÁRIO</h2>
-
-                <form action="" method="post">
-                    <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
-
-                    <div>
-                        <label for="nome_usuario">Nome:</label>
-                        <input type="text" id="nome_usuario" name="nome_usuario"
-                            value="<?= htmlspecialchars($usuario['nome_usuario']); ?>" required>
-                    </div>
-
-                    <div>
-                        <label for="login_usuario">Login:</label>
-                        <input type="text" id="login_usuario" name="login_usuario"
-                            value="<?= htmlspecialchars($usuario['login_usuario']); ?>" required>
-                    </div>
-
-                    <button type="submit">Excluir</button>
-                </form>
+                
                 <?php
                 // Atualiza os dados do usuário no banco de dados.
-                if (isset($_POST['id_usuario'])) {
-                    $resultado = $controllerUser->excluirUsuario($_POST['id_usuario']);
+                if (isset($id)) {
+                    $resultado = $controllerUser->excluirUsuario($id);
                     echo $resultado;
                     if ($resultado) {
                         // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
                         $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
-                        echo '<script type="text/javascript">
-                         window.location.href = "/projeto_final_3/pesquisa";
-                         </script>';
-
+                        
                         exit();
                     } else {
                         // Exibe mensagem de erro se a atualização falhar.
@@ -284,7 +260,10 @@ class Usuario extends Home
 
     public function put($id)
     {
-        if (isset($_POST['id_usuario'])) {
+        $controllerUser = new controllerUser();
+        
+    parse_str(file_get_contents('php://input'), $_PUT);
+        if (isset($id)) {
             $resultado = $controllerUser->atualizarUsuario($id, $_PUT['nome_usuario'], $_PUT['login_usuario'], sha1($_PUT['senha_usuario']));
             if ($resultado) {
                 // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
@@ -292,7 +271,9 @@ class Usuario extends Home
                 /*echo '<script type="text/javascript">
                  window.location.href = "/projeto_final_3/pesquisa";
                  </script>';*/
-        exit();
-    }}
+            exit();
+            }
+        }
+    }
 }
 ?>

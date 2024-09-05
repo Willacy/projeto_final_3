@@ -60,16 +60,16 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
     // Realiza a pesquisa de usuário
     $usuario->postPesquisaUsuario();
 
-} else if ($method == "PUT" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
-    $usuario->put();
+} else if ($method == "PUT" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
+    $usuario->put($uri[1]);
 } else if ($method == "GET" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
     $usuario->getUsuarioId($uri[1]);
 } else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
     $usuario->postEditarUsuario();
-} else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
+} else if ($method == "DELETE" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
     // Processa a exclusão do usuário
-    $usuario->delete();
+    $usuario->delete($uri[1]);
 } else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
     $usuario->postExcluirUsuario();
@@ -77,13 +77,15 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
     // Logout
     $usuario->logout();
 }
-    else {
+else {
+    echo json_encode(['uri'=> $uri, 'metodo' => $method]);
+    exit();
     // Redireciona para a tela de login
-    header('Location: /projeto_final_3/login');
+    //header('Location: /projeto_final_3/login');
 }
 ?>
     <script>
-        $('form[method=put]').on('submit',(e)=>{
+        $('form[method=put],form[method=delete]').on('submit',(e)=>{
             e.preventDefault();
             let action = $(e.target).attr('action');
             let metodo = $(e.target).attr('method');
@@ -94,8 +96,7 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
                 data: data,
                 context: document.body
             }).done((data)=>{
-                //location.reload();
-                alert("123");
+                location.reload();
             });
         })
     </script>
