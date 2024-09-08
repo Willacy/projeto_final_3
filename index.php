@@ -2,6 +2,7 @@
 session_start();
 
 require_once "./php/view/usuario.php";
+require_once "./php/view/livro.php";
 require_once "./php/view/tela_home.php";
 require_once "./php/controller/controller.php";
 
@@ -18,6 +19,7 @@ $inicio = 0;
 
 
 $usuario = new Usuario();
+$livro = new Livro();
 $home = new Home();
 
 if ($method=="PUT"){
@@ -76,7 +78,17 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
 } else if ($method == "GET" and $uri[$inicio] == "logout" and count($uri) == 1) {
     // Logout
     $usuario->logout();
+} else if ($method == "GET" and $uri[$inicio] == "livro" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Exibe o formulário de cadastro de livros
+    $livro->getCadastro();
+} else if ($method == "POST" and $uri[$inicio] == "livro" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Processa o cadastro de um novo livro
+    $livro->postCadastro();
+} else if ($method == "GET" and $uri[$inicio] == "livros" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Exibe a lista de livros cadastrados
+    $livro->getLivros();
 }
+
 else {
     echo json_encode(['uri'=> $uri, 'metodo' => $method]);
     exit();

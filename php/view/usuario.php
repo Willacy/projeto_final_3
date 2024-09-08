@@ -9,6 +9,7 @@ class Usuario extends Home
         $this->navbar();
 
         ?>
+
         <div class="container">
             <div class="tudo">
                 <div class="tela_login mx-auto bg-secondary-subtle p-3" style="width: 400px">
@@ -166,6 +167,9 @@ class Usuario extends Home
     {
         $this->cabecalho();
         $this->navbar();
+ ?>
+</html>
+ <?php
         // Verifica se o ID do usuário foi passado pela URL.
         if (isset($id)) {
             $id_usuario = htmlspecialchars($id);
@@ -178,8 +182,10 @@ class Usuario extends Home
 
             if ($usuario) {
                 // Exibe o formulário de edição com os dados do usuário.
+
                 ?>
                 <h2>Editar Usuário</h2>
+
                 <form action="/projeto_final_3/usuario/<?=$id?>" method="put">
                     <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
 
@@ -266,11 +272,7 @@ class Usuario extends Home
         if (isset($id)) {
             $resultado = $controllerUser->atualizarUsuario($id, $_PUT['nome_usuario'], $_PUT['login_usuario'], sha1($_PUT['senha_usuario']));
             if ($resultado) {
-                // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
                 $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
-                /*echo '<script type="text/javascript">
-                 window.location.href = "/projeto_final_3/pesquisa";
-                 </script>';*/
             exit();
             }
         }
