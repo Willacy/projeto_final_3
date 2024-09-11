@@ -22,7 +22,7 @@ $usuario = new Usuario();
 $livro = new Livro();
 $home = new Home();
 
-if ($method=="PUT"){
+if ($method == "PUT") {
     parse_str(file_get_contents('php://input'), $_PUT);
 }
 
@@ -40,22 +40,22 @@ if (isset($_SESSION['mensagem'])) {
 
 unset($_SESSION['mensagem']);
 
-if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
+if ($method == "GET" and count($uri) == 1 and $uri[$inicio] == "login") {
     // Exibe formulário de Login
     $usuario->getLogin();
 } else if ($method == "POST" and $uri[$inicio] == "login" and count($uri) == 1) {
     // Valida o login
     $usuario->postLogin();
-} else if ($method == "GET" and $uri[$inicio] == "home" and count($uri) == 1 and $_SESSION["validar"] == true) {
+} else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "home") {
     // Se Login ok, vai para Home
     $home->home();
 } else if ($method == "POST" and $uri[$inicio] == "usuario" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Realiza ação específica para POST na rota /usuario
     $usuario->post();
-} else if ($method == "GET" and $uri[$inicio] == "usuario" and count($uri) == 1 and $_SESSION["validar"] == true) {
+} else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "usuario") {
     // Exibe formulário de cadastro de usuário
     $usuario->getCadastro();
-} else if ($method == "GET" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
+} else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "pesquisa") {
     // Exibe a tela de pesquisa de usuário
     $usuario->getPesquisaUsuario();
 } else if ($method == "POST" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
@@ -64,7 +64,7 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
 
 } else if ($method == "PUT" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
     $usuario->put($uri[1]);
-} else if ($method == "GET" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
+} else if ($method == "GET" && count($uri) == 2 && $_SESSION["validar"] == true && $uri[$inicio] == "usuario") {
     $usuario->getUsuarioId($uri[1]);
 } else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
@@ -75,42 +75,46 @@ if ($method == "GET" and $uri[$inicio] == "login" and count($uri) == 1) {
 } else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
     // Processa a edição do usuário
     $usuario->postExcluirUsuario();
-} else if ($method == "GET" and $uri[$inicio] == "logout" and count($uri) == 1) {
+} else if ($method == "GET" and count($uri) == 1 and $uri[$inicio] == "logout") {
     // Logout
     $usuario->logout();
-} else if ($method == "GET" and $uri[$inicio] == "livro" and count($uri) == 1 and $_SESSION["validar"] == true) {
+} else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "livro") {
     // Exibe o formulário de cadastro de livros
     $livro->getCadastro();
 } else if ($method == "POST" and $uri[$inicio] == "livro" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Processa o cadastro de um novo livro
     $livro->postCadastro();
-} else if ($method == "GET" and $uri[$inicio] == "livros" and count($uri) == 1 and $_SESSION["validar"] == true) {
+} else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "livros") {
     // Exibe a lista de livros cadastrados
     $livro->getLivros();
-}
-
-else {
-    echo json_encode(['uri'=> $uri, 'metodo' => $method]);
-    exit();
+} else {
+    echo json_encode(['uri' => $uri, 'metodo' => $method]);
+    //exit();
     // Redireciona para a tela de login
-    //header('Location: /projeto_final_3/login');
+    if ($_SESSION["validar"]) {
+        header('Location: /projeto_final_3/home');
+    } else {
+        header('Location: /projeto_final_3/login');
+    }
+
 }
 ?>
-    <script>
-        $('form[method=put],form[method=delete]').on('submit',(e)=>{
-            e.preventDefault();
-            let action = $(e.target).attr('action');
-            let metodo = $(e.target).attr('method');
-            let data = $(e.target).serialize();
-            $.ajax({
-                url: action,
-                method: metodo,
-                data: data,
-                context: document.body
-            }).done((data)=>{
-                location.reload();
-            });
-        })
-    </script>
-    </body>
+<script>
+    $('form[method=put],form[method=delete]').on('submit', (e) => {
+        e.preventDefault();
+        let action = $(e.target).attr('action');
+        let metodo = $(e.target).attr('method');
+        let data = $(e.target).serialize();
+        $.ajax({
+            url: action,
+            method: metodo,
+            data: data,
+            context: document.body
+        }).done((data) => {
+            location.reload();
+        });
+    })
+</script>
+</body>
+
 </html>
