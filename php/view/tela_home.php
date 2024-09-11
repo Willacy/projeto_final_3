@@ -10,11 +10,12 @@ class Home
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="./css/bootstrap.min.css">
-            <!-- <link rel="stylesheet" href="./css/index.css"> -->
+            <link rel="stylesheet" href="/projeto_final_3/css/bootstrap.min.css">
+            <!--<link rel="stylesheet" href="./css/bootstrap.min.css">-->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
                 crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
             <title>Biblioteca</title>
         </head>
@@ -45,7 +46,7 @@ class Home
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/projeto_final_3/usuario">Cadastro Usuário</a></li>
-                                <li><a class="dropdown-item" href="#">Cadastro Livros</a></li>
+                                <li><a class="dropdown-item" href="/projeto_final_3/livro">Cadastro Livros</a></li>
                             </ul>
                         </li>
 
