@@ -32,11 +32,10 @@ class Usuario extends Home
         </div>
         <?php
     }
-    public function logout($conn)
+    public function logout()
     {
-        //$this->$conn = null;
         $controller = new ControllerUser();
-        $resultado = $controller->logout();
+        $controller->logout();
         echo '<div class="alert alert-success" role="alert">Logout Efetuado!</div>';
     }
     public function postLogin()
@@ -84,9 +83,13 @@ class Usuario extends Home
         $controller = new ControllerUser();
         $resultado = $controller->registrarUsusario();
         if ($resultado) {
-            echo '<div class="alert alert-success" role="alert">Usuário cadastrado com sucesso!</div>';
+            $_SESSION['mensagem'] = 'Usuário cadastrado com sucesso!';
+            //echo '<div class="alert alert-success" role="alert">Usuário cadastrado com sucesso!</div>';
+            header('Location: /projeto_final_3/usuario');
         } else {
-            echo '<div class="alert alert-danger" role="alert">Erro ao cadastrar o usuário. Tente novamente.</div>';
+            $_SESSION['mensagem'] = 'Erro ao cadastrar o usuário. Tente novamente.';
+            //echo '<div class="alert alert-danger" role="alert">Erro ao cadastrar o usuário. Tente novamente.</div>';
+            header('Location: /projeto_final_3/usuario');
         }
     }
 
@@ -96,8 +99,8 @@ class Usuario extends Home
         $this->navbar();
         // Instancia o ControllerUser e chama o método pesquisarUsuario
         $controllerUser = new ControllerUser();
-        if (isset($_POST['criterio'])) {
-            $resultados = $controllerUser->pesquisarUsuario($_POST['criterio']);
+        if (isset($_GET['criterio'])) {
+            $resultados = $controllerUser->pesquisarUsuario($_GET['criterio']);
         } else {
             $resultados = $controllerUser->pesquisarUsuario('%');
         }
@@ -106,11 +109,53 @@ class Usuario extends Home
 
         <h1>Pesquisa de Usuário</h1>
 
-        <form method="post" action="">
+        <form method="GET" action="">
             <label for="criterio">Pesquisar por Nome ou Login:</label>
             <input type="text" id="criterio" name="criterio" required>
             <button type="submit">Pesquisar</button>
         </form>
+
+        <div class="form-group">
+            <a type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastro">Novo</a>
+        </div>
+
+        <!-- modal tela cadastro -->
+        <div class="modal" tabindex="-1" id="cadastro">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="/projeto_final_3/usuario" method="POST" class="form">
+                        <!-- <div class="container"> -->
+                        <!-- <div class="tudo"> -->
+                        <div class="tela_cadastro mx-auto bg-secondary-subtle p-3" style="width: 600px">
+                            <!-- <form action="" method="POST" class="form"> -->
+                            <div class="form-group">
+                                <label for="nome_usuario">Nome do Usuário</label>
+                                <input type="text" name="nome_usuario" id="nome_usuario" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login_usuario">Login do Usuário</label>
+                                <input type="text" name="login_usuario" id="login_usuario" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="senha_usuario">Senha</label>
+                                <input type="password" name="senha_usuario" id="senha_usuario" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <!-- </form> -->
+                        </div>
+                        <!-- </div> -->
+                        <!-- </div> -->
+                        <!-- <div class="form-group my-3 text-center">
+                            DESEJA SAIR?
+                        </div>
+                        <div class="my-3 text-center">
+                            <button type="submit" class="btn btn-danger">CONFIRMAR</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <?php if (isset($resultados)): ?>
             <?php if ($resultados): ?>
@@ -130,12 +175,12 @@ class Usuario extends Home
                                 <td><?= htmlspecialchars($usuario['id_usuario']); ?></td>
                                 <td><?= htmlspecialchars($usuario['nome_usuario']); ?></td>
                                 <td><?= htmlspecialchars($usuario['login_usuario']); ?></td>
-                                <td>
+                                <td class="form-group">
                                     <!-- Botão de Editar -->
                                     <form method="get" action="/projeto_final_3/usuario/<?= urlencode($usuario['id_usuario']); ?>">
                                         <input type="submit" value="Editar">
                                     </form>
-                                    
+
 
                                     <!-- Botão de Excluir -->
                                     <form method="delete" action="/projeto_final_3/usuario/<?= urlencode($usuario['id_usuario']); ?>">
@@ -167,9 +212,10 @@ class Usuario extends Home
     {
         $this->cabecalho();
         $this->navbar();
- ?>
-</html>
- <?php
+        ?>
+
+        </html>
+        <?php
         // Verifica se o ID do usuário foi passado pela URL.
         if (isset($id)) {
             $id_usuario = htmlspecialchars($id);
@@ -186,7 +232,7 @@ class Usuario extends Home
                 ?>
                 <h2>Editar Usuário</h2>
 
-                <form action="/projeto_final_3/usuario/<?=$id?>" method="put">
+                <form action="/projeto_final_3/usuario/<?= $id ?>" method="put">
                     <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
 
                     <div>
@@ -211,7 +257,7 @@ class Usuario extends Home
                 </form>
                 <?php
                 // Atualiza os dados do usuário no banco de dados.
-              
+
             } else {
                 echo "<p>Usuário não encontrado.</p>";
             }
@@ -220,7 +266,7 @@ class Usuario extends Home
         }
     }
 
-    
+
 
     public function delete($id)
     {
@@ -239,7 +285,7 @@ class Usuario extends Home
             if ($usuario) {
                 // Exibe o formulário de edição com os dados do usuário.
                 ?>
-                
+
                 <?php
                 // Atualiza os dados do usuário no banco de dados.
                 if (isset($id)) {
@@ -248,7 +294,7 @@ class Usuario extends Home
                     if ($resultado) {
                         // Redireciona para a página de listagem de usuários com uma mensagem de sucesso.
                         $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
-                        
+
                         exit();
                     } else {
                         // Exibe mensagem de erro se a atualização falhar.
@@ -267,13 +313,13 @@ class Usuario extends Home
     public function put($id)
     {
         $controllerUser = new controllerUser();
-        
-    parse_str(file_get_contents('php://input'), $_PUT);
+
+        parse_str(file_get_contents('php://input'), $_PUT);
         if (isset($id)) {
             $resultado = $controllerUser->atualizarUsuario($id, $_PUT['nome_usuario'], $_PUT['login_usuario'], sha1($_PUT['senha_usuario']));
             if ($resultado) {
                 $_SESSION['mensagem'] = "Usuário atualizado com sucesso.";
-            exit();
+                exit();
             }
         }
     }

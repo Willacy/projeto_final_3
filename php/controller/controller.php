@@ -49,10 +49,11 @@ class ControllerUser extends Conexao
     }
 
     // Função para Logout
-    public function logout(){
+    public function logout()
+    {
         $_SESSION["validar"] = false;
-            $_SESSION["mensagem"] = "Logout Efetuado!";
-            header('Location: /projeto_final_3/login');
+        $_SESSION["mensagem"] = "Logout Efetuado!";
+        //header('Location: /projeto_final_3/login');
     }
 
 
@@ -169,26 +170,26 @@ class ControllerUser extends Conexao
             $valor_aluguel_livro = $_POST['valor_aluguel_livro'];
             $isbn_livro = $_POST['isbn_livro'];
             $quantidade_livro = $_POST['quantidade_livro'];
-    
+
             // Query para inserir o livro no banco de dados
             $query = "INSERT INTO livros (titulo_livro, valor_venda_livro, valor_aluguel_livro, isbn_livro, quantidade_livro) 
                       VALUES (:titulo_livro, :valor_venda_livro, :valor_aluguel_livro, :isbn_livro, :quantidade_livro)";
             $stmt = $this->conexao->prepare($query);
-    
+
             // Vinculando os parâmetros corretamente
             $stmt->bindParam(':titulo_livro', $titulo_livro);
             $stmt->bindParam(':valor_venda_livro', $valor_venda_livro);
             $stmt->bindParam(':valor_aluguel_livro', $valor_aluguel_livro);
             $stmt->bindParam(':isbn_livro', $isbn_livro);
             $stmt->bindParam(':quantidade_livro', $quantidade_livro);
-    
+
             // Executando a query
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Erro: " . $e->getMessage();
             return false;
         }
-    
+
     }
 
 }

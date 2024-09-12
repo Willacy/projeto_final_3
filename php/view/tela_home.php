@@ -40,28 +40,8 @@ class Home
                             <a class="nav-link" aria-current="page" href="/projeto_final_3/home">Ínicio</a>
                         </li>
                         <!-- MENU CADASTRO -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Cadastros
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/projeto_final_3/usuario">Cadastro Usuário</a></li>
-                                <li><a class="dropdown-item" href="/projeto_final_3/livro">Cadastro Livros</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- MENU PESQUISA -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Pesquisa
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/projeto_final_3/pesquisa">Usuário</a></li>
-                                <li><a class="dropdown-item" href="#">Livro</a></li>
-                            </ul>
-                        </li>
+                        <li><a class="nav-link" href="/projeto_final_3/usuario">Usuário</a></li>
+                        <li><a class="nav-link" href="/projeto_final_3/livro">Livros</a></li>
 
                         <!-- MENU MOVIMENTO -->
                         <li class="nav-item dropdown">
@@ -85,21 +65,36 @@ class Home
                 </div>
             </div>
         </nav>
-        <div class="modal fade" id="logout" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog bg-light p-4">
-                <form action="" method="POST" class="form">
-                    <div class="form-group my-3">
-                        <label for="login_usuario">Login do Usuário</label>
-                        <input type="text" name="login_usuario" id="login_usuario" class="form-control" required>
-                    </div>
-                    <div class="form-group my-3">
-                        <label for="senha_usuario">Senha</label>
-                        <input type="password" name="senha_usuario" id="senha_usuario" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </form>
+
+        <div class="modal" tabindex="-1" id="logout">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="/projeto_final_3/login" method="DELETE" class="form">
+                        <div class="form-group my-3 text-center">
+                            DESEJA SAIR?
+                        </div>
+                        <div class="my-3 text-center">
+                            <button type="submit" class="btn btn-danger">CONFIRMAR</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
+        <!-- <div class="modal fade" id="logout" aria-hidden="true">
+            <div class="modal-dialog bg-light p-4">
+                <form action="/projeto_final_3/login" method="DELETE" class="form">
+                    <div class="form-group my-3 text-center">
+                        DESEJA SAIR?
+                    </div>
+                    <div class="my-3 text-center">
+                        <button type="submit" class="btn btn-danger">CONFIRMAR</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dimiss="modal">CANCELAR</button>
+                    </div>
+                </form>
+            </div>
+        </div> -->
         <?php
     }
     public function home()
