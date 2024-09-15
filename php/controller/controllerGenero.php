@@ -2,33 +2,6 @@
 require_once './controller.php';
 class ControllerGenero extends Conexao
 {
-    /**
-     * Metodo responsavel por inserir usuarios no banco
-     * @return bool
-     */
-    public function criarGenero()
-    {
-        try {
-            // pega os dados do genero, no caso só o nome
-            $nome_genero = $_POST['nome_genero'];
-
-            // Query 
-            $query = "INSERT INTO generos (nome_genero) VALUES (:nome_genero)";
-            $stmt = $this->conexao->prepare($query);
-
-            // bind dos parametros
-            $stmt->bindParam(':nome_genero', $nome_genero, PDO::PARAM_STR);
-
-            // Execulta a query
-            $resultado = $stmt->execute();
-            return $resultado;
-
-        } catch (PDOException $e) {
-            echo "Erro: " . $e->getMessage();
-            return false;
-        }
-    }
-
     public function pesquisarGenero($criterio)
     {
         try {
@@ -61,6 +34,10 @@ class ControllerGenero extends Conexao
             echo "Erro ao pesquisar Genero: " . $e->getMessage();
             return false;
         }
+    }
+    public function criarGenero()
+    {
+
     }
 
     public function atualizarGenero($nome_genero, $id_genero)
