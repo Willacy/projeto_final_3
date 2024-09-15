@@ -58,10 +58,9 @@ class Usuario extends Home
             <div class="tudo">
                 <div class="tela_cadastro mx-auto bg-secondary-subtle p-3" style="width: 600px">
                     <form action="" method="POST" class="form">
-                        <div class="form-floating mb-3">
-                            <input type="text" name="nome_usuario" id="nome_usuario" class="form-control"
-                                placeholder="Nome de Usuário" required>
-                            <label for="nome_usuario">Nome do cadas</label>
+                        <div class="form-group">
+                            <label for="nome_usuario">Nome do Usuário</label>
+                            <input type="text" name="nome_usuario" id="nome_usuario" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="login_usuario">Login do Usuário</label>
