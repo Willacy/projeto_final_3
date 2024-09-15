@@ -16,7 +16,8 @@ CREATE TABLE
 CREATE TABLE
   IF NOT EXISTS estados (
     id_estado INT PRIMARY KEY AUTO_INCREMENT,
-    nome_estado VARCHAR(45)
+    nome_estado VARCHAR(45),
+    sigla_estado CHAR(2)
   );
 
 CREATE TABLE
