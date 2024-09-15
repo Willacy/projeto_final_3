@@ -36,7 +36,7 @@ class ControllerBairro extends Conexao
             $query = "SELECT * FROM bairros WHERE nome_bairro LIKE :criterio";
             $stmt = $this->conexao->prepare($query);
 
-            // Ajusta o critério para busca
+            // Ajusta o critério para busca com wildcard
             $criterio = '%' . $criterio . '%';
 
             // Bind dos parâmetros
