@@ -9,7 +9,8 @@ CREATE TABLE
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome_usuario VARCHAR(80),
     login_usuario VARCHAR(80) NOT NULL UNIQUE,
-    senha_usuario VARCHAR(128) NOT NULL
+    senha_usuario VARCHAR(128) NOT NULL,
+    ativo_usuario BOOLEAN DEFAULT TRUE
   );
 
 CREATE TABLE
@@ -85,6 +86,7 @@ CREATE TABLE
     valor_venda_livro DOUBLE,
     valor_aluguel_livro DOUBLE,
     isbn_livro VARCHAR(80),
+    ativo_livro BOOLEAN DEFAULT TRUE,
     quantidade_livro INT,
     fk_local INT,
     FOREIGN KEY (fk_local) REFERENCES locais (id_local)
