@@ -1,5 +1,5 @@
 <?php
-require_once './controller.php';
+require_once './php/controller/controller.php';
 class ControllerLivroAutor extends Conexao
 {
     public function criarLivroAutor($fk_livro, $fk_autor)
