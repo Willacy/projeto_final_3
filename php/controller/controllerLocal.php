@@ -1,5 +1,5 @@
 <?php
-require_once './php/controller/controller.php';
+require_once './controller.php';
 class ControllerLocal extends Conexao
 {
     public function criarLocal()

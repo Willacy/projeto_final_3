@@ -2,7 +2,7 @@
 session_start();
 
 require_once "./php/view/usuario.php";
-require_once "./php/view/TelaLivro.php";
+require_once "./php/view/livro.php";
 require_once "./php/view/tela_home.php";
 require_once "./php/controller/controller.php";
 
@@ -19,7 +19,7 @@ $inicio = 0;
 
 
 $usuario = new Usuario();
-$livro = new TelaLivro();
+$livro = new Livro();
 $home = new Home();
 
 if ($method == "PUT") {
@@ -93,7 +93,7 @@ if ($method == "GET" and count($uri) == 1 and $uri[$inicio] == "login") {
  * Livro
  */ else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "livro") {
     // Exibe o formulário de cadastro de livros
-    $livro->menuLivro($method);
+    $livro->getCadastro();
 } else if ($method == "POST" and $uri[$inicio] == "livro" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Processa o cadastro de um novo livro
     $livro->postCadastro();

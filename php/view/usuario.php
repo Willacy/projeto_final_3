@@ -142,8 +142,17 @@ class Usuario extends Home
                                 <input type="password" name="senha_usuario" id="senha_usuario" class="form-control" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Salvar</button>
-                           
+                            <!-- </form> -->
                         </div>
+                        <!-- </div> -->
+                        <!-- </div> -->
+                        <!-- <div class="form-group my-3 text-center">
+                            DESEJA SAIR?
+                        </div>
+                        <div class="my-3 text-center">
+                            <button type="submit" class="btn btn-danger">CONFIRMAR</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                        </div> -->
                     </form>
                 </div>
             </div>
