@@ -1,21 +1,19 @@
 <?php
 require_once './controller.php';
-class ControllerBairro extends Conexao
+class ControllerTipoMov extends Conexao
 {
-    public function criarBairro()
+    public function criarTipoMov()
     {
         try {
-            // Pega os dados do bairro
-            $nome_bairro = $_POST['nome_bairro'];
-            $fk_cidade = $_POST['fk_cidade'];
+            // Pega os dados do tipo de movimento
+            $nome_tipo_mov = $_POST['nome_tipo_mov'];
 
             // Query 
-            $query = "INSERT INTO bairros (nome_bairro, fk_cidade) VALUES (:nome_bairro, :fk_cidade)";
+            $query = "INSERT INTO tipos_mov (nome_tipo_mov) VALUES (:nome_tipo_mov)";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':nome_bairro', $nome_bairro, PDO::PARAM_STR);
-            $stmt->bindParam(':fk_cidade', $fk_cidade, PDO::PARAM_INT);
+            $stmt->bindParam(':nome_tipo_mov', $nome_tipo_mov, PDO::PARAM_STR);
 
             // Executa a query
             $resultado = $stmt->execute();
@@ -29,11 +27,11 @@ class ControllerBairro extends Conexao
         }
     }
 
-    public function pesquisarBairro($criterio)
+    public function pesquisarTipoMov($criterio)
     {
         try {
             // Query
-            $query = "SELECT * FROM bairros WHERE nome_bairro LIKE :criterio";
+            $query = "SELECT * FROM tipos_mov WHERE nome_tipo_mov LIKE :criterio";
             $stmt = $this->conexao->prepare($query);
 
             // Ajusta o critério para busca
@@ -50,20 +48,20 @@ class ControllerBairro extends Conexao
             return $resultados;
 
         } catch (PDOException $e) {
-            echo "Erro ao pesquisar Bairro: " . $e->getMessage();
+            echo "Erro ao pesquisar Tipo de Movimento: " . $e->getMessage();
             return false;
         }
     }
 
-    public function pesquisarBairroId($id_bairro)
+    public function pesquisarTipoMovId($id_tipo_mov)
     {
         try {
             // Query
-            $query = "SELECT * FROM bairros WHERE id_bairro = :id_bairro";
+            $query = "SELECT * FROM tipos_mov WHERE id_tipo_mov = :id_tipo_mov";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':id_bairro', $id_bairro, PDO::PARAM_INT);
+            $stmt->bindParam(':id_tipo_mov', $id_tipo_mov, PDO::PARAM_INT);
 
             // Executa
             $stmt->execute();
@@ -73,22 +71,21 @@ class ControllerBairro extends Conexao
             return $resultados;
 
         } catch (PDOException $e) {
-            echo "Erro ao pesquisar Bairro: " . $e->getMessage();
+            echo "Erro ao pesquisar Tipo de Movimento: " . $e->getMessage();
             return false;
         }
     }
 
-    public function atualizarBairro($nome_bairro, $fk_cidade, $id_bairro)
+    public function atualizarTipoMov($nome_tipo_mov, $id_tipo_mov)
     {
         try {
             // Query
-            $query = "UPDATE bairros SET nome_bairro = :nome_bairro, fk_cidade = :fk_cidade WHERE id_bairro = :id_bairro";
+            $query = "UPDATE tipos_mov SET nome_tipo_mov = :nome_tipo_mov WHERE id_tipo_mov = :id_tipo_mov";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':nome_bairro', $nome_bairro, PDO::PARAM_STR);
-            $stmt->bindParam(':fk_cidade', $fk_cidade, PDO::PARAM_INT);
-            $stmt->bindParam(':id_bairro', $id_bairro, PDO::PARAM_INT);
+            $stmt->bindParam(':nome_tipo_mov', $nome_tipo_mov, PDO::PARAM_STR);
+            $stmt->bindParam(':id_tipo_mov', $id_tipo_mov, PDO::PARAM_INT);
 
             // Executa a query
             $stmt->execute();
@@ -98,20 +95,20 @@ class ControllerBairro extends Conexao
             return $resultado;
 
         } catch (PDOException $e) {
-            echo 'Erro ao atualizar Bairro: ' . $e->getMessage();
+            echo 'Erro ao atualizar Tipo de Movimento: ' . $e->getMessage();
             return false;
         }
     }
 
-    public function excluirBairro($id_bairro)
+    public function excluirTipoMov($id_tipo_mov)
     {
         try {
             // Query
-            $query = "DELETE FROM bairros WHERE id_bairro = :id_bairro";
+            $query = "DELETE FROM tipos_mov WHERE id_tipo_mov = :id_tipo_mov";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':id_bairro', $id_bairro, PDO::PARAM_INT);
+            $stmt->bindParam(':id_tipo_mov', $id_tipo_mov, PDO::PARAM_INT);
 
             // Executa a query
             $stmt->execute();
@@ -121,7 +118,7 @@ class ControllerBairro extends Conexao
             return $resultado;
 
         } catch (PDOException $e) {
-            echo "Erro ao excluir Bairro: " . $e->getMessage();
+            echo "Erro ao excluir Tipo de Movimento: " . $e->getMessage();
             return false;
         }
     }

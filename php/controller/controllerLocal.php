@@ -1,21 +1,23 @@
 <?php
 require_once './controller.php';
-class ControllerBairro extends Conexao
+class ControllerLocal extends Conexao
 {
-    public function criarBairro()
+    public function criarLocal()
     {
         try {
-            // Pega os dados do bairro
-            $nome_bairro = $_POST['nome_bairro'];
-            $fk_cidade = $_POST['fk_cidade'];
+            // Pega os dados do local
+            $sessao_local = $_POST['sessao_local'];
+            $fileira_local = $_POST['fileira_local'];
+            $num_fileira_local = $_POST['num_fileira_local'];
 
             // Query 
-            $query = "INSERT INTO bairros (nome_bairro, fk_cidade) VALUES (:nome_bairro, :fk_cidade)";
+            $query = "INSERT INTO locais (sessao_local, fileira_local, num_fileira_local) VALUES (:sessao_local, :fileira_local, :num_fileira_local)";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':nome_bairro', $nome_bairro, PDO::PARAM_STR);
-            $stmt->bindParam(':fk_cidade', $fk_cidade, PDO::PARAM_INT);
+            $stmt->bindParam(':sessao_local', $sessao_local, PDO::PARAM_STR);
+            $stmt->bindParam(':fileira_local', $fileira_local, PDO::PARAM_INT);
+            $stmt->bindParam(':num_fileira_local', $num_fileira_local, PDO::PARAM_INT);
 
             // Executa a query
             $resultado = $stmt->execute();
@@ -29,14 +31,14 @@ class ControllerBairro extends Conexao
         }
     }
 
-    public function pesquisarBairro($criterio)
+    public function pesquisarLocal($criterio)
     {
         try {
             // Query
-            $query = "SELECT * FROM bairros WHERE nome_bairro LIKE :criterio";
+            $query = "SELECT * FROM locais WHERE sessao_local LIKE :criterio OR fileira_local = :criterio";
             $stmt = $this->conexao->prepare($query);
 
-            // Ajusta o critério para busca
+            // Ajusta o critério para busca com
             $criterio = '%' . $criterio . '%';
 
             // Bind dos parâmetros
@@ -50,20 +52,20 @@ class ControllerBairro extends Conexao
             return $resultados;
 
         } catch (PDOException $e) {
-            echo "Erro ao pesquisar Bairro: " . $e->getMessage();
+            echo "Erro ao pesquisar Local: " . $e->getMessage();
             return false;
         }
     }
 
-    public function pesquisarBairroId($id_bairro)
+    public function pesquisarLocalId($id_local)
     {
         try {
             // Query
-            $query = "SELECT * FROM bairros WHERE id_bairro = :id_bairro";
+            $query = "SELECT * FROM locais WHERE id_local = :id_local";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':id_bairro', $id_bairro, PDO::PARAM_INT);
+            $stmt->bindParam(':id_local', $id_local, PDO::PARAM_INT);
 
             // Executa
             $stmt->execute();
@@ -73,22 +75,23 @@ class ControllerBairro extends Conexao
             return $resultados;
 
         } catch (PDOException $e) {
-            echo "Erro ao pesquisar Bairro: " . $e->getMessage();
+            echo "Erro ao pesquisar Local: " . $e->getMessage();
             return false;
         }
     }
 
-    public function atualizarBairro($nome_bairro, $fk_cidade, $id_bairro)
+    public function atualizarLocal($sessao_local, $fileira_local, $num_fileira_local, $id_local)
     {
         try {
             // Query
-            $query = "UPDATE bairros SET nome_bairro = :nome_bairro, fk_cidade = :fk_cidade WHERE id_bairro = :id_bairro";
+            $query = "UPDATE locais SET sessao_local = :sessao_local, fileira_local = :fileira_local, num_fileira_local = :num_fileira_local WHERE id_local = :id_local";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':nome_bairro', $nome_bairro, PDO::PARAM_STR);
-            $stmt->bindParam(':fk_cidade', $fk_cidade, PDO::PARAM_INT);
-            $stmt->bindParam(':id_bairro', $id_bairro, PDO::PARAM_INT);
+            $stmt->bindParam(':sessao_local', $sessao_local, PDO::PARAM_STR);
+            $stmt->bindParam(':fileira_local', $fileira_local, PDO::PARAM_INT);
+            $stmt->bindParam(':num_fileira_local', $num_fileira_local, PDO::PARAM_INT);
+            $stmt->bindParam(':id_local', $id_local, PDO::PARAM_INT);
 
             // Executa a query
             $stmt->execute();
@@ -98,20 +101,20 @@ class ControllerBairro extends Conexao
             return $resultado;
 
         } catch (PDOException $e) {
-            echo 'Erro ao atualizar Bairro: ' . $e->getMessage();
+            echo 'Erro ao atualizar Local: ' . $e->getMessage();
             return false;
         }
     }
 
-    public function excluirBairro($id_bairro)
+    public function excluirLocal($id_local)
     {
         try {
             // Query
-            $query = "DELETE FROM bairros WHERE id_bairro = :id_bairro";
+            $query = "DELETE FROM locais WHERE id_local = :id_local";
             $stmt = $this->conexao->prepare($query);
 
             // Bind dos parâmetros
-            $stmt->bindParam(':id_bairro', $id_bairro, PDO::PARAM_INT);
+            $stmt->bindParam(':id_local', $id_local, PDO::PARAM_INT);
 
             // Executa a query
             $stmt->execute();
@@ -121,7 +124,7 @@ class ControllerBairro extends Conexao
             return $resultado;
 
         } catch (PDOException $e) {
-            echo "Erro ao excluir Bairro: " . $e->getMessage();
+            echo "Erro ao excluir Local: " . $e->getMessage();
             return false;
         }
     }
