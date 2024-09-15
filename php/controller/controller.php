@@ -1,6 +1,6 @@
 <?php
 
-class Conexao
+class Conexao 
 {
     protected $conexao = null;
 
@@ -54,21 +54,6 @@ class ControllerUser extends Conexao
         $_SESSION["validar"] = false;
         $_SESSION["mensagem"] = "Logout Efetuado!";
         //header('Location: /projeto_final_3/login');
-    }
-
-    public function listarUsuarios()
-    {
-        try {
-            $query = "SELECT id_usuario, nome_usuario FROM usuarios";
-            $stmt = $this->conexao->prepare($query);
-            $stmt->execute();
-
-            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $usuarios;
-        } catch (PDOException $e) {
-            echo "Erro ao listar usuários: " . $e->getMessage();
-            return false;
-        }
     }
 
 

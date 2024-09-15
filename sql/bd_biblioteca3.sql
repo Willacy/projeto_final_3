@@ -10,7 +10,6 @@ CREATE TABLE
     nome_usuario VARCHAR(80),
     login_usuario VARCHAR(80) NOT NULL UNIQUE,
     senha_usuario VARCHAR(128) NOT NULL,
-    tipo_usuario VARCHAR (10) DEFAULT 'user',
     ativo_usuario BOOLEAN DEFAULT TRUE
   );
 
@@ -120,33 +119,3 @@ CREATE TABLE
     FOREIGN KEY (fk_livro) REFERENCES livros (id_livro),
     FOREIGN KEY (fk_movimento) REFERENCES movimentos (id_movimento)
   );
-
-INSERT INTO
-  estados (nome_estado, sigla_estado)
-VALUES
-  ('Acre', 'AC'),
-  ('Alagoas', 'AL'),
-  ('Amazonas', 'AM'),
-  ('Bahia', 'BA'),
-  ('Ceará', 'CE'),
-  ('Distrito Federal', 'DF'),
-  ('Espírito Santo', 'ES'),
-  ('Goiás', 'GO'),
-  ('Maranhão', 'MA'),
-  ('Mato Grosso', 'MT'),
-  ('Mato Grosso do Sul', 'MS'),
-  ('Minas Gerais', 'MG'),
-  ('Pará', 'PA'),
-  ('Paraíba', 'PB'),
-  ('Paraná', 'PR'),
-  ('Pernambuco', 'PE'),
-  ('Piauí', 'PI'),
-  ('Rio de Janeiro', 'RJ'),
-  ('Rio Grande do Norte', 'RN'),
-  ('Rio Grande do Sul', 'RS'),
-  ('Rondônia', 'RO'),
-  ('Roraima', 'RR'),
-  ('Santa Catarina', 'SC'),
-  ('São Paulo', 'SP'),
-  ('Sergipe', 'SE'),
-  ('Tocantins', 'TO');
