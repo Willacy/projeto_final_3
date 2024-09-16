@@ -98,6 +98,24 @@ class ControllerUser extends Conexao
         }
     }
 
+    public function pesquisarLivro($criterio)
+{
+    try {
+        $query = "SELECT * FROM livros WHERE titulo_livro LIKE :criterio OR isbn_livro LIKE :criterio";
+        $stmt = $this->conexao->prepare($query);
+        $criterio = '%' . $criterio . '%';
+        $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resultados;
+
+    } catch (PDOException $e) {
+        echo "Erro ao pesquisar livro: " . $e->getMessage();
+        return false;
+    }
+}
+
     public function buscarUsuarioPorId($id_usuario)
     {
         try {
@@ -190,6 +208,26 @@ class ControllerUser extends Conexao
             return false;
         }
 
+    }
+    
+    public function registrarMovimentacao($tipo_movimentacao, $id_usuario, $id_livro) 
+    {
+        try {
+            // Query ajustada para os campos corretos
+            $query = "INSERT INTO movimentos (fk_tipo_movimento, fk_usuario_movimento, id_livro) 
+                    VALUES (:fk_tipo_movimento, :fk_usuario_movimento, :id_livro)";
+            $stmt = $this->conexao->prepare($query);
+            
+            // Bind dos parâmetros para os campos corretos
+            $stmt->bindParam(':fk_tipo_movimento', $tipo_movimentacao);
+            $stmt->bindParam(':fk_usuario_movimento', $id_usuario);
+            $stmt->bindParam(':id_livro', $id_livro);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
     }
 
 }

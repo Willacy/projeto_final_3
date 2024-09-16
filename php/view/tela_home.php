@@ -50,9 +50,9 @@ class Home
                                 Movimentação
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Entrada livro</a></li>
-                                <li><a class="dropdown-item" href="#">Venda livro</a></li>
-                                <li><a class="dropdown-item" href="#">Emprestimo livro</a></li>
+                                <li><a class="nav-link" href="/projeto_final_3/movimentacao">Venda Livro</a></li>
+                                <li><a class="dropdown-item" href="#">Empréstimo livro</a></li>
+                                <li><a class="dropdown-item" href="#">Devolução livro</a></li>
                             </ul>
                         </li>
                         <?php if ($_SESSION['validar']) { ?>

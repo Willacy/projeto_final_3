@@ -3,6 +3,7 @@ session_start();
 
 require_once "./php/view/usuario.php";
 require_once "./php/view/livro.php";
+require_once "./php/view/movimentacao.php";
 require_once "./php/view/tela_home.php";
 require_once "./php/controller/controller.php";
 
@@ -20,6 +21,7 @@ $inicio = 0;
 
 $usuario = new Usuario();
 $livro = new Livro();
+$movimentacao = new Movimentacao();
 $home = new Home();
 
 if ($method == "PUT") {
@@ -101,6 +103,20 @@ if ($method == "GET" and count($uri) == 1 and $uri[$inicio] == "login") {
     // Exibe a lista de livros cadastrados
     $livro->getLivros();
 }
+
+
+/**
+ * Movimentação
+ */ else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "movimentacao") {
+    // Exibe o formulário de cadastro de livros
+    $movimentacao->getMovimentacao();
+} else if ($method == "POST" and $uri[$inicio] == "movimentacao" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Processa o cadastro de um novo livro
+    $movimentacao->postMovimentacao();
+} 
+
+
+
 /**
  * Rota Default
  */ else if ($_SESSION["validar"]) {
