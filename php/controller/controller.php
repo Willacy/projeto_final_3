@@ -229,5 +229,23 @@ class ControllerUser extends Conexao
             return false;
         }
     }
+    public function pesquisarTiposMovimentacao($criterio)
+    {
+        try {
+            $query = "SELECT * FROM tipos_mov WHERE nome_tipo_mov LIKE :criterio";
+            $stmt = $this->conexao->prepare($query);
+            $criterio = '%' . $criterio . '%';
+            $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultados;
+
+        } catch (PDOException $e) {
+            echo "Erro ao pesquisar tipos de movimentação: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
 }

@@ -28,10 +28,11 @@ class Movimentacao extends Home
                             <select name="tipo_movimentacao" id="tipo_movimentacao" class="form-control" required>
                                 <?php foreach ($tiposMovimentacao as $tipo): ?>
                                     <option value="<?= htmlspecialchars($tipo['id_tipo_mov']); ?>">
-                                        <?= htmlspecialchars($tipo['descricao_mov']); ?>
+                                        <?= htmlspecialchars($tipo['nome_tipo_mov']); ?> 
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+
                         </div>
     
                         <div class="form-group">
@@ -84,23 +85,7 @@ class Movimentacao extends Home
         }
     }
 
-    public function pesquisarTiposMovimentacao($criterio)
-{
-    try {
-        $query = "SELECT * FROM tipos_mov WHERE descricao_mov LIKE :criterio";
-        $stmt = $this->conexao->prepare($query);
-        $criterio = '%' . $criterio . '%';
-        $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
-        $stmt->execute();
-
-        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $resultados;
-
-    } catch (PDOException $e) {
-        echo "Erro ao pesquisar tipos de movimentação: " . $e->getMessage();
-        return false;
-    }
-}
+    
 
 }
 
