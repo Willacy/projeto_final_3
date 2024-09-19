@@ -210,20 +210,31 @@ class ControllerUser extends Conexao
 
     }
     
-    public function registrarMovimentacao($tipo_movimentacao, $id_usuario, $id_livro) 
+    public function registrarMovimentacao() 
     {
         try {
-            // Query ajustada para os campos corretos
-            $query = "INSERT INTO movimentos (fk_tipo_movimento, fk_usuario_movimento, id_livro) 
-                    VALUES (:fk_tipo_movimento, :fk_usuario_movimento, :id_livro)";
+            //$id_livro = $_POST['livro'];
+            $data_movimento = $_POST['data'];
+            $quant_movimento = $_POST['qtd'];
+            $fk_usuario_movimento = $_POST['usuario'];
+            $fk_tipo_movimento = $_POST['tipo_movimentacao'];
+
+           
+            $query = "INSERT INTO movimentos (data_movimento, quant_movimento, fk_usuario_movimento, fk_tipo_movimento) 
+                    VALUES (:data_movimento, :quant_movimento, :fk_usuario_movimento, :fk_tipo_movimento)";
+
             $stmt = $this->conexao->prepare($query);
             
-            // Bind dos parâmetros para os campos corretos
-            $stmt->bindParam(':fk_tipo_movimento', $tipo_movimentacao);
-            $stmt->bindParam(':fk_usuario_movimento', $id_usuario);
-            $stmt->bindParam(':id_livro', $id_livro);
+            //$stmt->bindParam(':livro', $id_livro);
+            $stmt->bindParam(':data_movimento', $data_movimento, PDO::PARAM_STR);
+            $stmt->bindParam(':quant_movimento', $quant_movimento, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_usuario_movimento', $fk_usuario_movimento, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_tipo_movimento', $fk_tipo_movimento, PDO::PARAM_INT);
 
             return $stmt->execute();
+
+
+            
         } catch (PDOException $e) {
             echo "Erro: " . $e->getMessage();
             return false;
@@ -246,6 +257,4 @@ class ControllerUser extends Conexao
             return false;
         }
     }
-
-
 }

@@ -8,14 +8,8 @@ class Movimentacao extends Home
         $this->navbar();
     
         $controller = new ControllerUser();
-    
-        // Obter todos os usuários para seleção
         $usuarios = $controller->pesquisarUsuario('%');
-    
-        // Obter todos os livros para seleção
         $livros = $controller->pesquisarLivro('%');
-    
-        // Obter todos os tipos de movimentação
         $tiposMovimentacao = $controller->pesquisarTiposMovimentacao('%');
         ?>
     
@@ -56,6 +50,16 @@ class Movimentacao extends Home
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="data" class="label">Data:</label>
+                            <input type="date" name="data" id="data" class="form-control" autocomplete="new-password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="qtd" class="label">Quantidade:</label>
+                            <input type="number" name="qtd" id="qtd" class="form-control" autocomplete="new-password" required>
+                        </div>
     
                         <button type="submit" class="btn btn-primary">Registrar Movimentação</button>
                     </form>
@@ -71,12 +75,12 @@ class Movimentacao extends Home
     public function postMovimentacao()
     {
         // Tratamento do formulário de movimentação
-        $tipo_movimentacao = $_POST['tipo_movimentacao'];
-        $id_usuario = $_POST['usuario'];
-        $id_livro = $_POST['livro'];
+        //$tipo_movimentacao = $_POST['tipo_movimentacao'];
+        //$id_usuario = $_POST['usuario'];
+        //$id_livro = $_POST['livro'];
 
         $controller = new ControllerUser();
-        $resultado = $controller->registrarMovimentacao($tipo_movimentacao, $id_usuario, $id_livro);
+        $resultado = $controller->registrarMovimentacao();
 
         if ($resultado) {
             echo '<div class="alert alert-success" role="alert">Movimentação registrada com sucesso!</div>';
@@ -85,7 +89,64 @@ class Movimentacao extends Home
         }
     }
 
-    
+    public function getMovimentacaoUsuario($id)
+    {
+        $this->cabecalho();
+        $this->navbar();
+        ?>
+
+        </html>
+        <?php
+        // Verifica se o ID do usuário foi passado pela URL.
+        if (isset($id)) {
+            $id_usuario = htmlspecialchars($id);
+
+            // Instancia o controlador do usuário.
+            $controllerUser = new ControllerUser();
+
+            // Recupera os dados do usuário usando o ID.
+            $usuario = $controllerUser->buscarUsuarioPorId($id_usuario);
+
+            if ($usuario) {
+                // Exibe o formulário de edição com os dados do usuário.
+
+                ?>
+                <h2>Editar Usuário</h2>
+
+                <form action="/projeto_final_3/usuario/<?= $id ?>" method="put">
+                    <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']); ?>">
+
+                    <div>
+                        <label for="nome_usuario">Nome:</label>
+                        <input type="text" id="nome_usuario" name="nome_usuario"
+                            value="<?= htmlspecialchars($usuario['nome_usuario']); ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="login_usuario">Login:</label>
+                        <input type="text" id="login_usuario" name="login_usuario"
+                            value="<?= htmlspecialchars($usuario['login_usuario']); ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="senha_usuario">Senha:</label>
+                        <input type="password" id="senha_usuario" name="senha_usuario"
+                            value="<?= htmlspecialchars($usuario['senha_usuario']); ?>" required>
+                    </div>
+
+                    <button type="submit">Salvar Alterações</button>
+                </form>
+                <?php
+                // Atualiza os dados do usuário no banco de dados.
+
+            } else {
+                echo "<p>Usuário não encontrado.</p>";
+            }
+        } else {
+            echo "<p>ID do usuário não fornecido.</p>";
+        }
+    }
+
 
 }
 

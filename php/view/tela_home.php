@@ -42,19 +42,9 @@ class Home
                         <!-- MENU CADASTRO -->
                         <li><a class="nav-link" href="/projeto_final_3/usuario">Usuário</a></li>
                         <li><a class="nav-link" href="/projeto_final_3/livro">Livros</a></li>
-
-                        <!-- MENU MOVIMENTO -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Movimentação
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="/projeto_final_3/movimentacao">Venda Livro</a></li>
-                                <li><a class="dropdown-item" href="#">Empréstimo livro</a></li>
-                                <li><a class="dropdown-item" href="#">Devolução livro</a></li>
-                            </ul>
-                        </li>
+                        <li><a class="nav-link" href="/projeto_final_3/movimentacao">Movimentação</a></li>
+                        
+      
                         <?php if ($_SESSION['validar']) { ?>
                             <form class="d-flex ms-auto" role="search">
                                 <a type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logout">Sair</a>
@@ -82,19 +72,6 @@ class Home
             </div>
         </div>
 
-        <!-- <div class="modal fade" id="logout" aria-hidden="true">
-            <div class="modal-dialog bg-light p-4">
-                <form action="/projeto_final_3/login" method="DELETE" class="form">
-                    <div class="form-group my-3 text-center">
-                        DESEJA SAIR?
-                    </div>
-                    <div class="my-3 text-center">
-                        <button type="submit" class="btn btn-danger">CONFIRMAR</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dimiss="modal">CANCELAR</button>
-                    </div>
-                </form>
-            </div>
-        </div> -->
         <?php
     }
     public function home()
