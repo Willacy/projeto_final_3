@@ -1,5 +1,6 @@
 <?php
 require_once "./php/view/tela_home.php";
+require_once "./src/bootstrap_components.php";
 class Usuario extends Home
 {
     // tela de login
@@ -14,7 +15,11 @@ class Usuario extends Home
             <div class="tudo">
                 <div class="tela_login mx-auto bg-secondary-subtle p-3" style="width: 400px">
                     <form action="" method="POST" class="form">
-                        <div class="form-group">
+                        <?php
+                        createInput('login', "text", "Login:","");
+                        createInput("senha", "password", "Senha:", "");
+                        ?>
+                        <!-- <div class="form-group">
                             <label for="login" class="label">LOGIN:</label>
                             <input type="text" name="login" id="login" class="form-control" autocomplete="new-password"
                                 required>
@@ -23,7 +28,7 @@ class Usuario extends Home
                             <label for="senha" class="label">SENHA:</label>
                             <input type="password" name="senha" id="senha" class="form-control mb-2" autocomplete="new-password"
                                 required>
-                        </div>
+                        </div> -->
                         <!-- <input type="submit" class="botao" value="Entrar"> -->
                         <button type="submit" class="btn btn-primary">ENTRAR</button>
                     </form>
@@ -58,10 +63,14 @@ class Usuario extends Home
             <div class="tudo">
                 <div class="tela_cadastro mx-auto bg-secondary-subtle p-3" style="width: 600px">
                     <form action="" method="POST" class="form">
-                        <div class="form-group">
+                        <?php
+                        createInput("nome_usuario", "text", "Nome Usuário:","");
+                        createInput("senha", "password", "Senha:", "");
+                        ?>
+                        <!-- <div class="form-group">
                             <label for="nome_usuario">Nome do Usuário</label>
                             <input type="text" name="nome_usuario" id="nome_usuario" class="form-control" required>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="login_usuario">Login do Usuário</label>
                             <input type="text" name="login_usuario" id="login_usuario" class="form-control" required>
