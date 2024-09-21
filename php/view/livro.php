@@ -46,9 +46,11 @@ class Livro extends Home
         $controller = new ControllerUser();
         $resultado = $controller->registrarLivro();
         if ($resultado) {
-            echo '<div class="alert alert-success" role="alert">Livro cadastrado com sucesso!</div>';
+            $_SESSION['mensagem'] = 'Livro cadastrado com sucesso!';
+            header('Location: /projeto_final_3/livro');
         } else {
-            echo '<div class="alert alert-danger" role="alert">Erro ao cadastrar o livro. Tente novamente.</div>';
+            $_SESSION['mensagem'] = 'Erro ao cadastrar o Livro. Tente novamente.';
+            header('Location: /projeto_final_3/livro');
         }
     }
 

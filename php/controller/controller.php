@@ -98,6 +98,24 @@ class ControllerUser extends Conexao
         }
     }
 
+    public function pesquisarLivro($criterio)
+{
+    try {
+        $query = "SELECT * FROM livros WHERE titulo_livro LIKE :criterio OR isbn_livro LIKE :criterio";
+        $stmt = $this->conexao->prepare($query);
+        $criterio = '%' . $criterio . '%';
+        $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resultados;
+
+    } catch (PDOException $e) {
+        echo "Erro ao pesquisar livro: " . $e->getMessage();
+        return false;
+    }
+}
+
     public function buscarUsuarioPorId($id_usuario)
     {
         try {
@@ -191,5 +209,52 @@ class ControllerUser extends Conexao
         }
 
     }
+    
+    public function registrarMovimentacao() 
+    {
+        try {
+            //$id_livro = $_POST['livro'];
+            $data_movimento = $_POST['data'];
+            $quant_movimento = $_POST['qtd'];
+            $fk_usuario_movimento = $_POST['usuario'];
+            $fk_tipo_movimento = $_POST['tipo_movimentacao'];
 
+           
+            $query = "INSERT INTO movimentos (data_movimento, quant_movimento, fk_usuario_movimento, fk_tipo_movimento) 
+                    VALUES (:data_movimento, :quant_movimento, :fk_usuario_movimento, :fk_tipo_movimento)";
+
+            $stmt = $this->conexao->prepare($query);
+            
+            //$stmt->bindParam(':livro', $id_livro);
+            $stmt->bindParam(':data_movimento', $data_movimento, PDO::PARAM_STR);
+            $stmt->bindParam(':quant_movimento', $quant_movimento, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_usuario_movimento', $fk_usuario_movimento, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_tipo_movimento', $fk_tipo_movimento, PDO::PARAM_INT);
+
+            return $stmt->execute();
+
+
+            
+        } catch (PDOException $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
+    }
+    public function pesquisarTiposMovimentacao($criterio)
+    {
+        try {
+            $query = "SELECT * FROM tipos_mov WHERE nome_tipo_mov LIKE :criterio";
+            $stmt = $this->conexao->prepare($query);
+            $criterio = '%' . $criterio . '%';
+            $stmt->bindParam(':criterio', $criterio, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultados;
+
+        } catch (PDOException $e) {
+            echo "Erro ao pesquisar tipos de movimentação: " . $e->getMessage();
+            return false;
+        }
+    }
 }

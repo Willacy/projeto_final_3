@@ -181,6 +181,10 @@ class Usuario extends Home
                                         <input type="submit" value="Editar">
                                     </form>
 
+                                    <!-- Botão de Movimentação -->
+                                    <form method="get" action="/projeto_final_3/usuario/movimentacao/<?= urlencode($usuario['id_usuario']); ?>">
+                                        <input type="submit" value="Movimentação">
+                                    </form>
 
                                     <!-- Botão de Excluir -->
                                     <form method="delete" action="/projeto_final_3/usuario/<?= urlencode($usuario['id_usuario']); ?>">

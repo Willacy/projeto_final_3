@@ -3,6 +3,7 @@ session_start();
 
 require_once "./php/view/usuario.php";
 require_once "./php/view/livro.php";
+require_once "./php/view/movimentacao.php";
 require_once "./php/view/tela_home.php";
 require_once "./php/controller/controller.php";
 
@@ -17,9 +18,9 @@ if ($uri[$tamanho - 1] == "")
     array_pop($uri);
 $inicio = 0;
 
-
 $usuario = new Usuario();
 $livro = new Livro();
+$movimentacao = new Movimentacao();
 $home = new Home();
 
 if ($method == "PUT") {
@@ -63,31 +64,25 @@ if ($method == "GET" and count($uri) == 1 and $uri[$inicio] == "login") {
  */ else if ($method == "POST" and $uri[$inicio] == "usuario" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Cadastra usuario
     $usuario->post();
-    // } else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "usuario") {
-//     // Exibe formulário de cadastro de usuário
-//     $usuario->getCadastro();
 } else if ($method == "PUT" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
     //atualiza usuario
     $usuario->put($uri[1]);
 } else if ($method == "GET" && count($uri) == 2 && $_SESSION["validar"] == true && $uri[$inicio] == "usuario") {
     //pesquisa usuario por id
     $usuario->getUsuarioId($uri[1]);
-    // } else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
-//     // Processa a edição do usuário
-//     $usuario->postEditarUsuario();
 } else if ($method == "DELETE" && $uri[$inicio] == "usuario" && count($uri) == 2 && $_SESSION["validar"] == true) {
     // Processa a exclusão do usuário
     $usuario->delete($uri[1]);
-    // } else if ($method == "POST" && $uri[$inicio] == "usuario" && count($uri) == 1 && $_SESSION["validar"] == true) {
-//     // Processa a edição do usuário
-//     $usuario->postExcluirUsuario();
 } else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "usuario") {
     // Exibe a tela de pesquisa de usuário
     $usuario->getPesquisaUsuario();
 } else if ($method == "POST" and $uri[$inicio] == "pesquisa" and count($uri) == 1 and $_SESSION["validar"] == true) {
     // Realiza a pesquisa de usuário
     $usuario->postPesquisaUsuario();
-
+}else if ($method == "GET" && count($uri) == 3 && $_SESSION["validar"] == true && $uri[$inicio] == "usuario") {
+    //pesquisa mov por id
+    $movimentacao->getMovimentacaoUsuario($uri[2]);
+    
 }
 /**
  * Livro
@@ -101,6 +96,20 @@ if ($method == "GET" and count($uri) == 1 and $uri[$inicio] == "login") {
     // Exibe a lista de livros cadastrados
     $livro->getLivros();
 }
+
+
+/**
+ * Movimentação
+ */ else if ($method == "GET" and count($uri) == 1 and $_SESSION["validar"] == true and $uri[$inicio] == "movimentacao") {
+    // Exibe o formulário de cadastro de livros
+    $movimentacao->getMovimentacao();
+} else if ($method == "POST" and $uri[$inicio] == "movimentacao" and count($uri) == 1 and $_SESSION["validar"] == true) {
+    // Processa o cadastro de um novo livro
+    $movimentacao->postMovimentacao();
+} 
+
+
+
 /**
  * Rota Default
  */ else if ($_SESSION["validar"]) {
